@@ -1,25 +1,24 @@
-import arcade
-
 from snake import Snake
-from view import draw_snake_head
 
-CELL_SIZE_PIXELS = 10
-MAP_SIZE_CELLS = 50
-MAP_SIZE_PIXELS = MAP_SIZE_CELLS * CELL_SIZE_PIXELS
-SNAKE_START_POSITION = {'x': MAP_SIZE_CELLS/2, 'y': MAP_SIZE_CELLS/2}
 
-arcade.open_window(MAP_SIZE_PIXELS, MAP_SIZE_PIXELS, "Snake")
-arcade.set_background_color(arcade.color.WHITE)
-arcade.start_render()
+class Game:
+    def __init__(self, map_size):
+        self.map_size = map_size
+        self.snake = None
 
-snake = Snake(SNAKE_START_POSITION['x'], SNAKE_START_POSITION['y'], 'down')
-snake_head_canvas = {
-    'x': snake.x * CELL_SIZE_PIXELS,
-    'y': snake.y * CELL_SIZE_PIXELS,
-    'width': CELL_SIZE_PIXELS,
-    'height': CELL_SIZE_PIXELS
-}
-draw_snake_head(snake_head_canvas, snake.orientation)
+    def initialize_snake(self):
+        self.snake = Snake(
+            x=self.map_size / 2,
+            y=self.map_size / 2,
+            orientation='down'
+        )
 
-arcade.finish_render()
-arcade.run()
+    def update(self):
+        if self.snake.orientation == 'down':
+            self.snake.y -= 1
+        elif self.snake.orientation == 'up':
+            self.snake.y += 1
+        elif self.snake.orientation == 'left':
+            self.snake.x -= 1
+        elif self.snake.orientation == 'right':
+            self.snake.x += 1

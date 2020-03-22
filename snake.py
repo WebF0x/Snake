@@ -3,3 +3,6 @@ class Snake:
         self.x = x
         self.y = y
         self.orientation = orientation
+
+    def set_orientation(self, orientation):
+        self.orientation = orientation
