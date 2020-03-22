@@ -38,6 +38,20 @@ class GameWindow(arcade.Window):
         }
         draw_snake_head(snake_head_canvas, self.game.snake.orientation)
 
+    def on_key_press(self, symbol, modifiers):
+        requested_orientation = None
+        if symbol == arcade.key.DOWN:
+            requested_orientation = 'down'
+        elif symbol == arcade.key.UP:
+            requested_orientation = 'up'
+        elif symbol == arcade.key.LEFT:
+            requested_orientation = 'left'
+        elif symbol == arcade.key.RIGHT:
+            requested_orientation = 'right'
+
+        if requested_orientation:
+            self.game.request_orientation(requested_orientation)
+
 
 def main():
     window = GameWindow()
