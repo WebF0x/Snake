@@ -1,69 +1,37 @@
+from copy import deepcopy
+
 import arcade
 
 
-def get_head_vertices(canvas, orientation):
-    left = canvas['x']
-    right = left + canvas['width']
-    bottom = canvas['y']
-    top = bottom + canvas['height']
-    middle_horizontal = left + canvas['width'] / 2
-    middle_vertical = bottom + canvas['height'] / 2
+class View:
+    def __init__(self):
+        self.sprite_rabbit = None
+        self.sprite_easter_egg = None
+        self.sprite_chick = None
 
-    left_cheek = None
-    right_cheek = None
-    mouth = None
+    def load_images(self):
+        self.sprite_rabbit = arcade.Sprite('images/bunny.jpg')
+        self.sprite_easter_egg = arcade.Sprite('images/easter_egg.png')
+        self.sprite_chick = arcade.Sprite('images/chick.png')
 
-    if orientation == 'down':
-        left_cheek = {'x': right, 'y': top}
-        right_cheek = {'x': left, 'y': top}
-        mouth = {'x': middle_horizontal, 'y': bottom}
-    elif orientation == 'up':
-        left_cheek = {'x': left, 'y': bottom}
-        right_cheek = {'x': right, 'y': bottom}
-        mouth = {'x': middle_horizontal, 'y': top}
-    elif orientation == 'right':
-        left_cheek = {'x': left, 'y': top}
-        right_cheek = {'x': left, 'y': bottom}
-        mouth = {'x': right, 'y': middle_vertical}
-    elif orientation == 'left':
-        left_cheek = {'x': right, 'y': bottom}
-        right_cheek = {'x': right, 'y': top}
-        mouth = {'x': left, 'y': middle_vertical}
+    def draw_snake_head(self, canvas):
+        self.draw_sprite(canvas, self.sprite_rabbit)
 
-    return [left_cheek, right_cheek, mouth]
+    def draw_nugget(self, canvas):
+        self.draw_sprite(canvas, self.sprite_easter_egg)
 
+    def draw_snake_tail_segment(self, canvas):
+        self.draw_sprite(canvas, self.sprite_chick)
 
-def draw_snake_head(canvas, orientation):
-    vertices = get_head_vertices(canvas, orientation)
-    for i, vertex in enumerate(vertices):
-        next_vertex = vertices[(i + 1) % len(vertices)]
-        arcade.draw_line(
-            vertex['x'],
-            vertex['y'],
-            next_vertex['x'],
-            next_vertex['y'],
-            arcade.color.BLACK,
-            1
-        )
+    def draw_sprite(self, canvas, source_sprite):
+        sprite = deepcopy(source_sprite)
+        sprite.center_x = canvas['x'] + canvas['width'] / 2
+        sprite.center_y = canvas['y'] + canvas['height'] / 2
+        sprite.scale = self.get_sprite_scaling(canvas, sprite)
+        sprite.draw()
 
-
-def draw_nugget(canvas):
-    draw_circle(canvas, arcade.color.RED)
-
-
-def draw_snake_tail_segment(canvas):
-    draw_circle(canvas, arcade.color.GREEN)
-
-
-def draw_circle(canvas, color):
-    half_width = canvas['width'] / 2
-    half_height = canvas['height'] / 2
-    arcade.draw_circle_outline(
-        center_x=canvas['x'] + half_width,
-        center_y=canvas['y'] + half_height,
-        radius=min(half_width, half_height),
-        color=color,
-    )
-
-
-
+    @staticmethod
+    def get_sprite_scaling(canvas, sprite):
+        potential_scaling_horizontal = canvas['width'] / sprite.width
+        potential_scaling_vertical = canvas['height'] / sprite.height
+        return min(potential_scaling_horizontal, potential_scaling_vertical)

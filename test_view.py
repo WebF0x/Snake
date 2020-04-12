@@ -1,67 +1,38 @@
-from view import get_head_vertices
+from view import View
 
 
 class TestView:
-    def test_get_head_vertices_facing_up(self):
-        canvas = {
-            'x': 20,
-            'y': 10,
-            'width': 200,
-            'height': 100
-        }
-        orientation = 'up'
-        vertices = get_head_vertices(canvas, orientation)
-        left_cheek = {'x': 20, 'y': 10}
-        right_cheek = {'x': 220, 'y': 10}
-        mouth = {'x': 120, 'y': 110}
-        assert right_cheek in vertices
-        assert left_cheek in vertices
-        assert mouth in vertices
+    def setup(self):
+        self.view = View()
 
-    def test_get_head_vertices_facing_down(self):
+    def test_sprite_scaling_to_canvas_horizontally(self):
         canvas = {
-            'x': 20,
-            'y': 10,
-            'width': 200,
-            'height': 100
+            'x': 0,
+            'y': 0,
+            'width': 10,
+            'height': 20
         }
-        orientation = 'down'
-        vertices = get_head_vertices(canvas, orientation)
-        left_cheek = {'x': 20, 'y': 110}
-        right_cheek = {'x': 220, 'y': 110}
-        mouth = {'x': 120, 'y': 10}
-        assert right_cheek in vertices
-        assert left_cheek in vertices
-        assert mouth in vertices
 
-    def test_get_head_vertices_facing_right(self):
-        canvas = {
-            'x': 20,
-            'y': 10,
-            'width': 200,
-            'height': 100
-        }
-        orientation = 'right'
-        vertices = get_head_vertices(canvas, orientation)
-        left_cheek = {'x': 20, 'y': 10}
-        right_cheek = {'x': 20, 'y': 110}
-        mouth = {'x': 220, 'y': 60}
-        assert right_cheek in vertices
-        assert left_cheek in vertices
-        assert mouth in vertices
+        class SpriteStub:
+            def __init__(self):
+                self.width = 5
+                self.height = 1
+        sprite = SpriteStub()
 
-    def test_get_head_vertices_facing_left(self):
+        assert 2 == self.view.get_sprite_scaling(canvas, sprite)
+
+    def test_sprite_scaling_to_canvas_vertically(self):
         canvas = {
-            'x': 20,
-            'y': 10,
-            'width': 200,
-            'height': 100
+            'x': 0,
+            'y': 0,
+            'width': 10,
+            'height': 20
         }
-        orientation = 'left'
-        vertices = get_head_vertices(canvas, orientation)
-        left_cheek = {'x': 220, 'y': 110}
-        right_cheek = {'x': 220, 'y': 10}
-        mouth = {'x': 20, 'y': 60}
-        assert right_cheek in vertices
-        assert left_cheek in vertices
-        assert mouth in vertices
+
+        class SpriteStub:
+            def __init__(self):
+                self.width = 1
+                self.height = 4
+        sprite = SpriteStub()
+
+        assert 5 == self.view.get_sprite_scaling(canvas, sprite)
