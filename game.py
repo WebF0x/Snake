@@ -15,6 +15,7 @@ class Game:
             Position(self.map_size / 2, self.map_size / 2),
             orientation='down'
         )
+        self.snake.eat(2)
 
     def update(self):
         self.move_snake_forward()

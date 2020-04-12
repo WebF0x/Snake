@@ -53,5 +53,5 @@ class Snake:
         self.tail.pop()
         self.tail.insert(0, self.get_neck_position())
 
-    def eat(self):
-        self.food += 1
+    def eat(self, amount=1):
+        self.food += amount
