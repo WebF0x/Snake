@@ -1,7 +1,6 @@
 class Snake:
-    def __init__(self, x, y, orientation):
-        self.x = x
-        self.y = y
+    def __init__(self, position, orientation):
+        self.position = position
         self.orientation = orientation
 
     def set_orientation(self, orientation):

@@ -45,3 +45,14 @@ def draw_snake_head(canvas, orientation):
             arcade.color.BLACK,
             1
         )
+
+
+def draw_nugget(canvas):
+    half_width = canvas['width'] / 2
+    half_height = canvas['height'] / 2
+    arcade.draw_circle_outline(
+        center_x=canvas['x'] + half_width,
+        center_y=canvas['y'] + half_height,
+        radius=min(half_width, half_height),
+        color=arcade.color.RED,
+    )

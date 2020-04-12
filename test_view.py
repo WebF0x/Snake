@@ -1,7 +1,7 @@
 from view import get_head_vertices
 
 
-class TestView():
+class TestView:
     def test_get_head_vertices_facing_up(self):
         canvas = {
             'x': 20,
