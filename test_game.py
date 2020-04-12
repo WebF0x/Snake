@@ -43,7 +43,6 @@ class TestGame:
         game.update()
         assert Position(6, 5) == game.snake.position
 
-
     def test_when_requesting_orientation_to_the_sides_then_snake_turns(self):
         game = Game(10)
         game.initialize_snake()
