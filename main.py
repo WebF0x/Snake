@@ -40,6 +40,7 @@ class GameWindow(arcade.Window):
             self.time_since_last_frame -= FRAME_PERIOD
 
     def on_draw(self):
+        # noinspection PyBroadException
         try:
             self.draw()
         except Exception:
