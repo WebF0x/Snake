@@ -17,6 +17,16 @@ class Game:
         )
 
     def update(self):
+        self.move_snake_forward()
+        self.check_nugget_collision()
+
+    def check_nugget_collision(self):
+        if not self.nugget:
+            return
+        if self.snake.position == self.nugget.position:
+            self.place_nugget()
+
+    def move_snake_forward(self):
         if self.snake.orientation == 'down':
             self.snake.position.y -= 1
         elif self.snake.orientation == 'up':
