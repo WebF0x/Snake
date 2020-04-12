@@ -1,11 +1,12 @@
 import random
+import sys
 
 import arcade
 
 from game import Game
 from position import Position
 from random_position_generator import RandomPositionGenerator
-from view import draw_snake_head, draw_nugget
+from view import draw_snake_head, draw_nugget, draw_snake_tail_segment
 
 FRAME_PERIOD = 0.2
 
@@ -36,15 +37,26 @@ class GameWindow(arcade.Window):
             self.time_since_last_frame -= FRAME_PERIOD
 
     def on_draw(self):
+        try:
+            self.draw()
+        except Exception as e:
+            sys.stderr.write('Error while drawing the game: ' + str(e) + '\n')
+            exit(1)
+
+    def draw(self):
         arcade.set_background_color(arcade.color.WHITE)
         arcade.start_render()
-
         if self.game.nugget:
             nugget_canvas = self.get_canvas_from_cell(self.game.nugget.position)
             draw_nugget(nugget_canvas)
-
         snake_head_canvas = self.get_canvas_from_cell(Position(self.game.snake.position.x, self.game.snake.position.y))
         draw_snake_head(snake_head_canvas, self.game.snake.orientation)
+        self.draw_snake_tail()
+
+    def draw_snake_tail(self):
+        for segment in self.game.get_snake_tail():
+            canvas = self.get_canvas_from_cell(segment)
+            draw_snake_tail_segment(canvas)
 
     @staticmethod
     def get_canvas_from_cell(position):

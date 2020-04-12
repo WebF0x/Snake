@@ -29,3 +29,18 @@ class TestGame:
 
         nugget = game.get_nugget()
         assert Position(1, 1) == nugget.position
+
+    def test_when_snake_eats_nugget_then_tail_grows(self):
+        position_generator = PositionGenerator()
+        allow(position_generator).get_position.and_return(None)
+        game = Game(10, position_generator)
+        game.initialize_snake()
+        game.snake.position = Position(5, 5)
+        game.snake.orientation = 'down'
+        game.place_nugget_at_position(Position(5, 4))
+
+        game.update()
+
+        tail = game.get_snake_tail()
+        assert 1 == len(tail)
+        assert Position(5, 5) == tail[0]

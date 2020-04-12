@@ -25,16 +25,7 @@ class Game:
             return
         if self.snake.position == self.nugget.position:
             self.place_nugget()
-
-    def move_snake_forward(self):
-        if self.snake.orientation == 'down':
-            self.snake.position.y -= 1
-        elif self.snake.orientation == 'up':
-            self.snake.position.y += 1
-        elif self.snake.orientation == 'left':
-            self.snake.position.x -= 1
-        elif self.snake.orientation == 'right':
-            self.snake.position.x += 1
+            self.snake.eat()
 
     def request_orientation(self, requested_orientation):
         current_orientation = self.snake.orientation
@@ -59,3 +50,9 @@ class Game:
 
     def get_nugget(self):
         return self.nugget
+
+    def get_snake_tail(self):
+        return self.snake.tail
+
+    def move_snake_forward(self):
+        self.snake.move()
